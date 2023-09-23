@@ -1,4 +1,4 @@
-﻿#NoEnv
+#NoEnv
 SetBatchLines -1
 SendMode Input
 SetWorkingDir %A_ScriptDir%
@@ -7,7 +7,7 @@ Menu, Tray, NoIcon ; Hide the script's icon from the system tray
 
 #SingleInstance, Force ; Ensure only one instance of the script is running
 
-Random, clickDelay, 40, 80 ; Generate a random delay between 40ms and 80ms
+Random, clickDelay, 30, 60 ; Generate a random delay between 40ms and 60ms
 
 F1::
     toggle := !toggle
@@ -44,7 +44,7 @@ return
 
         if (clicksPerSecond > 15 || RandomClickDelay())
         {
-            Random, delay, 30, 40 ; Generate a random delay between 30ms and 40ms
+            Random, delay, 25, 35 ; Generate a random delay between 30ms and 40ms
 
             if (movementChance <= 20)
             {
@@ -71,7 +71,7 @@ return
             ; 40% chance for clicks slower than 70ms every fifth click
             Random, delay, 10, 70
             if (delay > 40)
-                Random, delay, 40, 80 ; Default random delay between 40ms and 80ms
+                Random, delay, 30, 60 ; Default random delay between 40ms and 60ms
             Sleep, delay
         }
         else
@@ -99,8 +99,8 @@ RandomClickDelay()
 
     if (delay = 1)
     {
-        ; 50% chance for clicks faster than 60ms
-        Random, delay, 10, 60
+        ; 50% chance for clicks faster than 45ms
+        Random, delay, 10, 45
         if (delay <= 50)
         {
             ; 25% chance for clicks faster than 30ms
@@ -108,8 +108,8 @@ RandomClickDelay()
         }
         else
         {
-            ; Default random delay between 40ms and 80
-            Random, delay, 40, 80
+            ; Default random delay between 40ms and 60
+            Random, delay, 30, 60
         }
     }
     else if (delay = 2 && Mod(clickCounter, 3) = 0)
@@ -123,14 +123,14 @@ RandomClickDelay()
         }
         else
         {
-            ; Default random delay between 40ms and 70ms
-            Random, delay, 40, 70
+            ; Default random delay between 40ms and 60ms
+            Random, delay, 40, 60
         }
     }
     else
     {
-        ; Default random delay between 40ms and 80ms
-        Random, delay, 40, 80
+        ; Default random delay between 40ms and 60ms
+        Random, delay, 30, 60
     }
 
     return delay
@@ -138,10 +138,11 @@ RandomClickDelay()
 
 RandomMouseMovement()
 {
+{
     MouseGetPos, startX, startY ; Get the starting position of the mouse
 
-    Random, offsetX, -2, 2 ; Generate a random offset for the X coordinate within -2 and 2 pixels
-    Random, offsetY, -3, 3 ; Generate a random offset for the Y coordinate within -3 and 3 pixels
+    Random, offsetX, -1, 1 ; Generate a random offset for the X coordinate within -3 and 3 pixels
+    Random, offsetY, -1, 1 ; Generate a random offset for the Y coordinate within -3 and 3 pixels
 
     targetX := startX + offsetX ; Calculate the new X position
     targetY := startY + offsetY ; Calculate the new Y position
@@ -149,4 +150,6 @@ RandomMouseMovement()
     duration := 500 ; Set the duration of the mouse movement in milliseconds (increased to 500ms)
 
     DllCall("mouse_event", uint, 0x0001, int, targetX - startX, int, targetY - startY, uint, 0, int, 0, UInt, duration) ; Smoothly move the mouse to the new position
+}
+
 }
